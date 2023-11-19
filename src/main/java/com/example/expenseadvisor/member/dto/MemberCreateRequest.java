@@ -3,9 +3,11 @@ package com.example.expenseadvisor.member.dto;
 import com.example.expenseadvisor.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberCreateRequest {
 
@@ -25,4 +27,5 @@ public class MemberCreateRequest {
         this.email = email;
         this.password = password;
     }
+
 }

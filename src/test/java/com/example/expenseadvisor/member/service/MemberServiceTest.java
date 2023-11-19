@@ -22,9 +22,9 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @DisplayName("멤버를 생성할 수 있다.")
+    @DisplayName("사용자를 생성할 수 있다.")
     @Test
-    void memberSave() {
+    void createMember() {
         // given
         String email = "abc@gmail.com";
         String password = "1234abcde";
@@ -46,7 +46,7 @@ class MemberServiceTest {
         assertThat(foundMember.getId()).isEqualTo(savedMemberId);
     }
 
-    @DisplayName("이미 존재하는 이메일로 멤버 생성 시도 시 DataIntegrityViolationException을 던진다.")
+    @DisplayName("이미 존재하는 이메일로 사용자 생성 시도 시 DataIntegrityViolationException을 던진다.")
     @Test
     void givenDuplicateEmail_thenThrows() {
         // given - 하나의 계정이 저장된 상태
