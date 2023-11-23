@@ -13,14 +13,14 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtTokenProvider {
+public class JwtProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String AUTHORITIES_DELIMITER = ",";
     private final long tokenValidityInMilliSeconds;
     private final SecretKey secretKey;
 
-    public JwtTokenProvider(
+    public JwtProvider(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
         this.tokenValidityInMilliSeconds = tokenValidityInSeconds * 1000;
