@@ -1,0 +1,3 @@
+jwt:
+  secret: f5aa60c2612f9436772eb65d69a0c117dace6522a5363fe2891c290be99b857c75f86b1b418e5952dd4c9c13f37a709aaea42fe95d5e512960fa3fdf76abfa4d # 테스트 용 시크릿
+  token-validity-in-seconds: 300 # 5분
