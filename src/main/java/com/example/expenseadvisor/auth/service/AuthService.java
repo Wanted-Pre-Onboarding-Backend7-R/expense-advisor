@@ -1,7 +1,7 @@
 package com.example.expenseadvisor.auth.service;
 
 import com.example.expenseadvisor.auth.dto.LoginRequest;
-import com.example.expenseadvisor.auth.jwt.JwtTokenProvider;
+import com.example.expenseadvisor.auth.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtProvider jwtProvider;
 
     public String login(LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken notAuthenticated = new UsernamePasswordAuthenticationToken(
@@ -25,7 +25,7 @@ public class AuthService {
         // AuthenticationManager를 사용하기 위해서는 UserDetailsService, PasswordEncoder Bean으로 노출할 필요가 있다.
         Authentication authenticated = authenticationManagerBuilder.getObject().authenticate(notAuthenticated);
 
-        return jwtTokenProvider.createToken(authenticated);
+        return jwtProvider.createToken(authenticated);
     }
 
 }

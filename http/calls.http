@@ -19,3 +19,7 @@ Content-Type: application/json
 > {%
     client.global.set("auth_token", response.body.token);
 %}
+
+### 카테고리 목록
+GET http://localhost:8080/api/categories
+Authorization: Bearer {{auth_token}}
