@@ -23,3 +23,17 @@ Content-Type: application/json
 ### 카테고리 목록
 GET http://localhost:8080/api/categories
 Authorization: Bearer {{auth_token}}
+
+### 예산 생성
+POST http://localhost:8080/api/budgets
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "budgetByCategories": [
+    {
+      "amount": 1000,
+      "categoryId": 1
+    }
+  ]
+}
