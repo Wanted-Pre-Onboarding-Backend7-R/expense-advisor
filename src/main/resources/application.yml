@@ -5,6 +5,10 @@ jwt:
 spring:
   jpa:
     defer-datasource-initialization: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   sql:
     init:
       mode: always
