@@ -15,4 +15,9 @@ public class BudgetByCategory {
     @NotNull
     private Integer amount;
 
+    public BudgetByCategory(Long categoryId, Integer amount) {
+        this.categoryId = categoryId;
+        this.amount = amount;
+    }
+
 }

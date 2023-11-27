@@ -14,4 +14,8 @@ public class BudgetCreateRequest {
     @NotNull
     public List<BudgetByCategory> budgetByCategories;
 
+    public BudgetCreateRequest(List<BudgetByCategory> budgetByCategories) {
+        this.budgetByCategories = budgetByCategories;
+    }
+
 }
