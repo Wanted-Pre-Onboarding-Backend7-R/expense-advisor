@@ -1,0 +1,10 @@
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: member
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: expense_advisor
+    ports:
+      - "3309:3306"
