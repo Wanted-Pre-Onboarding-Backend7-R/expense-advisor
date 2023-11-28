@@ -3,6 +3,8 @@ package com.example.expenseadvisor.member.service;
 import com.example.expenseadvisor.member.domain.Member;
 import com.example.expenseadvisor.member.dto.MemberCreateRequest;
 import com.example.expenseadvisor.member.repository.MemberRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,16 @@ class MemberServiceTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @BeforeEach
+    void beforeEach() {
+
+    }
+
+    @AfterEach
+    void afterEach() {
+        memberRepository.deleteAll();
+    }
 
     @DisplayName("사용자를 생성할 수 있다.")
     @Test

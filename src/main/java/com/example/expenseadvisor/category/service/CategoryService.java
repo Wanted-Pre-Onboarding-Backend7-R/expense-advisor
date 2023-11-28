@@ -1,11 +1,12 @@
 package com.example.expenseadvisor.category.service;
 
+import com.example.expenseadvisor.category.domain.Category;
 import com.example.expenseadvisor.category.dto.CategoryDto;
-import com.example.expenseadvisor.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -13,11 +14,8 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    private final CategoryRepository categoryRepository;
-
     public List<CategoryDto> getCategoryList() {
-        return categoryRepository.findAll().stream()
-                .map(CategoryDto::from).toList();
+        return Arrays.stream(Category.values()).map(CategoryDto::new).toList();
     }
 
 }

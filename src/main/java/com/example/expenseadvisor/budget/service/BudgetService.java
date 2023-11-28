@@ -4,7 +4,6 @@ import com.example.expenseadvisor.budget.domain.Budget;
 import com.example.expenseadvisor.budget.dto.BudgetCreateRequest;
 import com.example.expenseadvisor.budget.repository.BudgetRepository;
 import com.example.expenseadvisor.category.domain.Category;
-import com.example.expenseadvisor.category.repository.CategoryRepository;
 import com.example.expenseadvisor.exception.CustomException;
 import com.example.expenseadvisor.exception.ErrorCode;
 import com.example.expenseadvisor.member.domain.Member;
@@ -22,7 +21,6 @@ public class BudgetService {
 
     private final BudgetRepository budgetRepository;
     private final MemberRepository memberRepository;
-    private final CategoryRepository categoryRepository;
 
     @Transactional
     public void createBudgets(BudgetCreateRequest budgetCreateRequest, String email) {
@@ -39,11 +37,7 @@ public class BudgetService {
 
     private List<Budget> toBudgetList(BudgetCreateRequest budgetCreateRequest, Member member) {
         return budgetCreateRequest.getBudgetByCategories().stream()
-                .map(budgetByCategory -> {
-                    Category category = categoryRepository.findById(budgetByCategory.getCategoryId())
-                            .orElseThrow(() -> new CustomException(ErrorCode.CAT_NOT_EXISTS));
-                    return new Budget(budgetByCategory.getAmount(), member, category);
-                })
+                .map(budgetByCategory -> new Budget(budgetByCategory.getAmount(), member, Category.valueOf(budgetByCategory.getCategory())))
                 .toList();
     }
 

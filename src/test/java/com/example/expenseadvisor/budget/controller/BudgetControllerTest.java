@@ -4,7 +4,7 @@ import com.example.expenseadvisor.budget.domain.Budget;
 import com.example.expenseadvisor.budget.dto.BudgetByCategory;
 import com.example.expenseadvisor.budget.dto.BudgetCreateRequest;
 import com.example.expenseadvisor.budget.repository.BudgetRepository;
-import com.example.expenseadvisor.category.repository.CategoryRepository;
+import com.example.expenseadvisor.category.domain.Category;
 import com.example.expenseadvisor.member.domain.Member;
 import com.example.expenseadvisor.member.dto.MemberCreateRequest;
 import com.example.expenseadvisor.member.repository.MemberRepository;
@@ -43,8 +43,6 @@ class BudgetControllerTest {
     @Autowired
     MemberRepository memberRepository;
     @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
     BudgetRepository budgetRepository;
 
     private final String testEmail = "abc@gmail.com";
@@ -62,7 +60,6 @@ class BudgetControllerTest {
     @AfterEach
     void afterEach() {
         budgetRepository.deleteAll();
-        categoryRepository.deleteAll();
         memberRepository.deleteAll();
     }
 
@@ -72,9 +69,9 @@ class BudgetControllerTest {
     void budgetByCategory() throws Exception {
         // given
         List<BudgetByCategory> budgetByCategories = List.of(
-                new BudgetByCategory(1L, 10000),
-                new BudgetByCategory(2L, 20000),
-                new BudgetByCategory(3L, 30000)
+                new BudgetByCategory(Category.FOOD.name(), 10000),
+                new BudgetByCategory(Category.HOUSING.name(), 20000),
+                new BudgetByCategory(Category.HOBBY.name(), 30000)
         );
         BudgetCreateRequest request = new BudgetCreateRequest(budgetByCategories);
 
@@ -89,12 +86,35 @@ class BudgetControllerTest {
         // then
         Member member = memberRepository.findMemberByEmail(testEmail).orElseThrow(() -> new Exception("테스트 멤버가 검색되어야 합니다."));
         List<Budget> all = budgetRepository.findAll();
-        assertThat(all).hasSize(3).extracting("amount", "member.id", "category.id")
+        assertThat(all).hasSize(3).extracting("amount", "member.id", "category")
                 .contains(
-                        Tuple.tuple(10000, member.getId(), 1L),
-                        Tuple.tuple(20000, member.getId(), 2L),
-                        Tuple.tuple(30000, member.getId(), 3L)
+                        Tuple.tuple(10000, member.getId(), Category.FOOD),
+                        Tuple.tuple(20000, member.getId(), Category.HOUSING),
+                        Tuple.tuple(30000, member.getId(), Category.HOBBY)
                 );
     }
+
+//    @DisplayName("예산 설정 요청에는 모든 카테고리에 대한 예산이 들어 있어야 한다. 아니라면 놓친 카테고리에 대한 에러 응답 메시지를 보내야 한다.")
+//    @WithUserDetails(value = testEmail, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+//    @Test
+//    void test() throws Exception {
+//        // given - 카테고리 3번 누락
+//        List<BudgetByCategory> budgetByCategories = List.of(
+//                new BudgetByCategory("FOOD", 10000),
+//                new BudgetByCategory("HOUSING", 20000)
+//                //new BudgetByCategory("HOBBY", 30000)
+//        );
+//        BudgetCreateRequest request = new BudgetCreateRequest(budgetByCategories);
+//
+//        // when
+//        mockMvc.perform(post("/api/budgets")
+//                        .contentType(APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(request))
+//                )
+//                .andDo(print())
+//                .andExpect(status().isBadRequest());
+//
+//        // then
+//    }
 
 }

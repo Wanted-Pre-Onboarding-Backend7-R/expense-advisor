@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 public class BudgetByCategory {
 
     @NotNull
-    private Long categoryId;
+    private String category;
 
     @NotNull
     private Integer amount;
 
-    public BudgetByCategory(Long categoryId, Integer amount) {
-        this.categoryId = categoryId;
+    public BudgetByCategory(String category, Integer amount) {
+        this.category = category;
         this.amount = amount;
     }
 

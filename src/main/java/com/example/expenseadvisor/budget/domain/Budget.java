@@ -4,6 +4,8 @@ import com.example.expenseadvisor.category.domain.Category;
 import com.example.expenseadvisor.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"member_id", "category_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"member_id", "category"}))
 @Entity
 public class Budget {
 
@@ -32,8 +34,7 @@ public class Budget {
     @JoinColumn(nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     public Budget(int amount, Member member, Category category) {

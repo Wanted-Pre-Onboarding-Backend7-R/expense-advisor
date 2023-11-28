@@ -6,16 +6,12 @@ import lombok.Getter;
 @Getter
 public class CategoryDto {
 
-    private final Long id;
     private final String name;
+    private final String viewName;
 
-    public CategoryDto(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public static CategoryDto from(Category category) {
-        return new CategoryDto(category.getId(), category.getName());
+    public CategoryDto(Category category) {
+        this.name = category.name();
+        this.viewName = category.getViewName();
     }
 
 }
