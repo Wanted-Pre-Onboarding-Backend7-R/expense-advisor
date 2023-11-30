@@ -3,6 +3,7 @@ package com.example.expenseadvisor.budget.controller;
 import com.example.expenseadvisor.budget.domain.Budget;
 import com.example.expenseadvisor.budget.dto.BudgetByCategory;
 import com.example.expenseadvisor.budget.dto.BudgetCreateRequest;
+import com.example.expenseadvisor.budget.dto.BudgetPatchRequest;
 import com.example.expenseadvisor.budget.repository.BudgetRepository;
 import com.example.expenseadvisor.category.domain.Category;
 import com.example.expenseadvisor.member.domain.Member;
@@ -66,7 +67,7 @@ class BudgetControllerTest {
     @DisplayName("카테고리 별 예산을 등록할 수 있다.")
     @WithUserDetails(value = testEmail, setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void budgetByCategory() throws Exception {
+    void createBudget() throws Exception {
         // given
         List<BudgetByCategory> budgetByCategories = List.of(
                 new BudgetByCategory(Category.FOOD.name(), 10000),
@@ -94,27 +95,51 @@ class BudgetControllerTest {
                 );
     }
 
-//    @DisplayName("예산 설정 요청에는 모든 카테고리에 대한 예산이 들어 있어야 한다. 아니라면 놓친 카테고리에 대한 에러 응답 메시지를 보내야 한다.")
-//    @WithUserDetails(value = testEmail, setupBefore = TestExecutionEvent.TEST_EXECUTION)
-//    @Test
-//    void test() throws Exception {
-//        // given - 카테고리 3번 누락
-//        List<BudgetByCategory> budgetByCategories = List.of(
-//                new BudgetByCategory("FOOD", 10000),
-//                new BudgetByCategory("HOUSING", 20000)
-//                //new BudgetByCategory("HOBBY", 30000)
-//        );
-//        BudgetCreateRequest request = new BudgetCreateRequest(budgetByCategories);
-//
-//        // when
-//        mockMvc.perform(post("/api/budgets")
-//                        .contentType(APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(request))
-//                )
-//                .andDo(print())
-//                .andExpect(status().isBadRequest());
-//
-//        // then
-//    }
+    @DisplayName("등록된 카테고리별 예산을 수정할 수 있다.")
+    @WithUserDetails(value = testEmail, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    void patchBudget() throws Exception {
+        // given - 3개 카테고리에 대한 예산 등록
+        List<BudgetByCategory> budgetByCategories = List.of(
+                new BudgetByCategory(Category.FOOD.name(), 10000),
+                new BudgetByCategory(Category.HOUSING.name(), 20000),
+                new BudgetByCategory(Category.HOBBY.name(), 30000)
+        );
+        BudgetCreateRequest request = new BudgetCreateRequest(budgetByCategories);
+
+        mockMvc.perform(post("/api/budgets")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        assertThat(budgetRepository.findAll().size()).isEqualTo(budgetByCategories.size());
+
+        // given - 3개 카테고리에 대한 수정 예산 준비
+        List<BudgetByCategory> patchBudgetByCategories = List.of(
+                new BudgetByCategory(Category.FOOD.name(), 20000),
+                new BudgetByCategory(Category.HOUSING.name(), 30000),
+                new BudgetByCategory(Category.HOBBY.name(), 40000)
+        );
+
+        BudgetPatchRequest budgetPatchRequest = new BudgetPatchRequest(patchBudgetByCategories);
+
+        // when - 예산 수정 요청
+        mockMvc.perform(patch("/api/budgets")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(budgetPatchRequest))
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        // then - 수정된 예산 확인
+        List<Budget> budgets = budgetRepository.findAll();
+        assertThat(budgets).hasSize(3)
+                .extracting("amount", "category")
+                .containsExactlyInAnyOrder(
+                        Tuple.tuple(20000, Category.FOOD),
+                        Tuple.tuple(30000, Category.HOUSING),
+                        Tuple.tuple(40000, Category.HOBBY)
+                );
+    }
 
 }
