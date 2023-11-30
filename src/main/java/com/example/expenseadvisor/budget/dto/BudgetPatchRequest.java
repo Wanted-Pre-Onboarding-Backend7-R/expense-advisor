@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BudgetPatchRequest {
 
-    @NotNull
+    @NotNull(message = "수정 예산 리스트는 비어 있으면 안됩니다.")
     private List<BudgetByCategory> budgetByCategories;
 
     public BudgetPatchRequest(List<BudgetByCategory> budgetByCategories) {

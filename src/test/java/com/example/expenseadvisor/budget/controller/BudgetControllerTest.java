@@ -6,6 +6,7 @@ import com.example.expenseadvisor.budget.dto.BudgetCreateRequest;
 import com.example.expenseadvisor.budget.dto.BudgetPatchRequest;
 import com.example.expenseadvisor.budget.repository.BudgetRepository;
 import com.example.expenseadvisor.category.domain.Category;
+import com.example.expenseadvisor.exception.domain.ErrorCode;
 import com.example.expenseadvisor.member.domain.Member;
 import com.example.expenseadvisor.member.dto.MemberCreateRequest;
 import com.example.expenseadvisor.member.repository.MemberRepository;
@@ -140,6 +141,25 @@ class BudgetControllerTest {
                         Tuple.tuple(30000, Category.HOUSING),
                         Tuple.tuple(40000, Category.HOBBY)
                 );
+    }
+
+    @DisplayName("예산 수정 요청이 비어 있다면 에러 메시지로 응답한다.")
+    @WithUserDetails(value = testEmail, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    void patchBudget_givenNull_thenErrorMessage() throws Exception {
+        // given - 비어 있는 수정 요청 field
+        BudgetPatchRequest budgetPatchRequest = new BudgetPatchRequest(null);
+
+        // when, then
+        mockMvc.perform(patch("/api/budgets")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(budgetPatchRequest))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(ErrorCode.GEN_NOT_VALID_ARGUMENTS.name()))
+                .andExpect(jsonPath("$.message").value(ErrorCode.GEN_NOT_VALID_ARGUMENTS.getMessage()))
+                .andExpect(jsonPath("$.errors.budgetByCategories[0]").value("수정 예산 리스트는 비어 있으면 안됩니다."));
     }
 
 }

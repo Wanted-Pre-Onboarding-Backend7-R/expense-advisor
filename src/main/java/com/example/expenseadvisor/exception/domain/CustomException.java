@@ -1,4 +1,4 @@
-package com.example.expenseadvisor.exception;
+package com.example.expenseadvisor.exception.domain;
 
 import lombok.Getter;
 

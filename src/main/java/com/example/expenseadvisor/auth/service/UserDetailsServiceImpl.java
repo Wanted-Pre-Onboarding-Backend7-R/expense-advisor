@@ -1,7 +1,7 @@
 package com.example.expenseadvisor.auth.service;
 
-import com.example.expenseadvisor.exception.CustomException;
-import com.example.expenseadvisor.exception.ErrorCode;
+import com.example.expenseadvisor.exception.domain.CustomException;
+import com.example.expenseadvisor.exception.domain.ErrorCode;
 import com.example.expenseadvisor.member.domain.Member;
 import com.example.expenseadvisor.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
