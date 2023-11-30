@@ -1,4 +1,4 @@
-package com.example.expenseadvisor.exception;
+package com.example.expenseadvisor.exception.domain;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -13,8 +13,10 @@ public enum ErrorCode {
     BUD_ALREADY_EXISTS("이미 해당 사용자는 예산을 가지고 있습니다.", HttpStatus.BAD_REQUEST),
 
     // CATEGORY(카테고리)
-    CAT_NOT_EXISTS("존재하지 않는 카테고리입니다.", HttpStatus.NOT_FOUND)
-    ;
+    CAT_NOT_EXISTS("존재하지 않는 카테고리입니다.", HttpStatus.NOT_FOUND),
+
+    // GENERAL
+    GEN_NOT_VALID_ARGUMENTS("전달된 값이 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
 
     ErrorCode(String message, HttpStatus httpStatus) {
         this.message = message;
