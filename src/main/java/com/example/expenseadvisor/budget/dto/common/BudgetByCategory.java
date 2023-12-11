@@ -1,4 +1,4 @@
-package com.example.expenseadvisor.budget.dto;
+package com.example.expenseadvisor.budget.dto.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

@@ -1,9 +1,9 @@
 package com.example.expenseadvisor.budget.service;
 
 import com.example.expenseadvisor.budget.domain.Budget;
-import com.example.expenseadvisor.budget.dto.BudgetByCategory;
-import com.example.expenseadvisor.budget.dto.BudgetCreateRequest;
-import com.example.expenseadvisor.budget.dto.BudgetPatchRequest;
+import com.example.expenseadvisor.budget.dto.common.BudgetByCategory;
+import com.example.expenseadvisor.budget.dto.request.BudgetCreateRequest;
+import com.example.expenseadvisor.budget.dto.request.BudgetPatchRequest;
 import com.example.expenseadvisor.budget.repository.BudgetRepository;
 import com.example.expenseadvisor.category.domain.Category;
 import com.example.expenseadvisor.exception.domain.CustomException;
@@ -53,6 +53,13 @@ public class BudgetService {
         patch(budgetPatchRequest, member);
     }
 
+    /**
+     * 추천 예산을 반환한다.
+     */
+    public List<BudgetByCategory> getBudgetRecommendation() {
+        return null;
+    }
+
     private List<Budget> toBudgetList(BudgetCreateRequest budgetCreateRequest, Member member) {
         return budgetCreateRequest.getBudgetByCategories().stream()
                 .map(budgetByCategory -> new Budget(budgetByCategory.getAmount(), member, Category.valueOf(budgetByCategory.getCategory())))
@@ -76,5 +83,4 @@ public class BudgetService {
             }
         }
     }
-
 }

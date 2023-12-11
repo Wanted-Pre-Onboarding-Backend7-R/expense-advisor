@@ -1,9 +1,9 @@
 package com.example.expenseadvisor.budget.controller;
 
 import com.example.expenseadvisor.budget.domain.Budget;
-import com.example.expenseadvisor.budget.dto.BudgetByCategory;
-import com.example.expenseadvisor.budget.dto.BudgetCreateRequest;
-import com.example.expenseadvisor.budget.dto.BudgetPatchRequest;
+import com.example.expenseadvisor.budget.dto.common.BudgetByCategory;
+import com.example.expenseadvisor.budget.dto.request.BudgetCreateRequest;
+import com.example.expenseadvisor.budget.dto.request.BudgetPatchRequest;
 import com.example.expenseadvisor.budget.repository.BudgetRepository;
 import com.example.expenseadvisor.category.domain.Category;
 import com.example.expenseadvisor.exception.domain.ErrorCode;

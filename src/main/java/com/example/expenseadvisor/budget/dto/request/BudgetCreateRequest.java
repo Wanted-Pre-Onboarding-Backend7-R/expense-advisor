@@ -1,5 +1,6 @@
-package com.example.expenseadvisor.budget.dto;
+package com.example.expenseadvisor.budget.dto.request;
 
+import com.example.expenseadvisor.budget.dto.common.BudgetByCategory;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
